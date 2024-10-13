@@ -40,12 +40,16 @@ section{
   color: #749FC9;
 }
 
-.site-loader p {
+.prevers {
   font-weight: normal;
   font-size: 3em;
   font-family: 'Helvetica';
   rotate: 180deg;
   letter-spacing: 1.75em;
+}
+
+.prevers span{
+  rotate: 0deg;
 }
 
 main {
@@ -350,6 +354,7 @@ main {
   font-family: 'Arial Black';
   color: #497D67;
   padding: 20px 0 10px 0;
+  margin-bottom: 220px;
 }
 
 .emailBlock {
@@ -362,6 +367,7 @@ main {
   bottom: 20px; /* Расположение формы от низа страницы */
   right: -100%; /* Начальная позиция (вне экрана) */
   transition: right 0.5s ease; /* Плавный переход */
+  width: 100%;
 }
 
 .emailBlock.show {
@@ -370,10 +376,12 @@ main {
 
 .emailBlock input {
   padding: 20px;
-  width: 100%;
+  width: 95%;
+  height: 230px;
   color: white;
-  border-radius: 40px;
+  border-radius: 130px;
   border: none;
+  margin-left: 30px;
   background: #749FC9;
   font-weight: bold;
   font-size: 2em; /* Изменение размера для лучшего восприятия */
@@ -387,7 +395,9 @@ main {
 
 .emailBlock button {
   padding: 10px;
-  border-radius: 100px;
+  border-radius: 100%;
+  width: 240px;
+  height: 230px;
   border: none;
   background: #749FC9;
   color: white;

@@ -32,9 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const cards = document.querySelectorAll('.thirdBlockCard');
   const thirdBlock = document.querySelector('.thirdBlock');
   const lastCard = cards[cards.length - 1];
+  let isAnimating = false;  // Состояние блокировки скролла
   
   // Функция для отображения карточек
   function showCard(index) {
+    isAnimating = true; // Блокируем скролл на время анимации
     cards.forEach((card, i) => {
       if (i === index) {
         card.classList.remove('hidden');
@@ -44,6 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
         card.style.display = 'none'; // Скрыть остальные карточки
       }
     });
+    
+    // Таймаут для завершения анимации (покрывает время анимации)
+    setTimeout(() => {
+      isAnimating = false; // Разрешаем скролл после анимации
+    }, 800); // Время должно совпадать с длительностью CSS-анимации
   }
   
   // Изначально показываем первую карточку
@@ -51,6 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Обработчик события прокрутки
   window.addEventListener('wheel', (event) => {
+    if (isAnimating) return;  // Если идет анимация, блокируем скролл
+  
     if (event.deltaY > 0 && currentIndex < cards.length - 1) {
       // Прокрутка вниз
       currentIndex++;
@@ -62,17 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
     showCard(currentIndex);
   });
   
-  // Используем Intersection Observer для отслеживания последней карточки
+  // Используем Intersection Observer для последней карточки
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Если последняя карточка видима, разрешаем прокрутку
-        thirdBlock.style.position = 'absolute'; // Делаем секцию абсолютно позиционированной
-        thirdBlock.style.top = `${window.innerHeight}px`; // Перемещаем ее вниз на высоту экрана
+        // Когда последняя карточка видима, позволяем продолжить скроллинг
+        thirdBlock.style.position = 'relative'; // Освобождаем секцию
       } else {
-        // Если последняя карточка не видима, оставляем фиксированной
-        thirdBlock.style.position = ''; // Снова фиксируем позицию
-        thirdBlock.style.top = '0'; // Возвращаем к верхней части экрана
+        // Когда секция с карточками не видима, фиксируем её на экране
+        thirdBlock.style.position = 'fix ed';
+        thirdBlock.style.top = '0';
       }
     });
   }, { threshold: 1.0 }); // Настраиваем на 100% видимости
